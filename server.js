@@ -9,6 +9,7 @@ const mysql = require('mysql2');
 const app = express();
 
 app.use(express.json());
+const defaultPort = 3000;
 
 
 // create database connection
@@ -19,11 +20,12 @@ const connectt =mysql.createConnection({
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
-    // port: process.env.PORT,
+    port: process.env.PORT,
     // host: 'localhost',
     // user: 'root',
-    // password: 'your_password',
-    // database: 'mydatabase'
+    // password: 'p2ssw0rd',
+    // database: 'mydatabases',
+    // port: 3307
 
 });
 
@@ -84,7 +86,7 @@ app.post('/add-user', async (req, res)=>{
 
 })
 
-const PORT = process.env.PORT || 3000;
+const PORT = defaultPort;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

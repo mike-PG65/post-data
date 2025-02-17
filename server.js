@@ -21,11 +21,7 @@ const connectt =mysql.createConnection({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     port: process.env.PORT,
-    // host: 'localhost',
-    // user: 'root',
-    // password: 'p2ssw0rd',
-    // database: 'mydatabases',
-    // port: 3307
+   
 
 });
 
@@ -39,25 +35,18 @@ connectt.connect((err) => {
     console.log('Connected to MySQL');
   });
 
-  // connectt.connect()
-  //   .then(() => {
-  //       console.log('Connected to MySQL');
-  //   })
-  //   .catch((err) => {
-  //       console.error('Error connecting to the database:', err);
-  //   });
 
 app.post('/add-user', async (req, res)=>{
     const {firstname, lastname, age, location, email} = req.body;
     
 
 
-    if (!firstname || !lastname || !age || !location){
+    if (!firstname || !lastname || !age || !location || !email){
       return res.status(400).json({ message: 'All fields are required' })
     }
 
 
-    const queryCheck = 'SELECT * FROM users WHERE email = ?';
+    const queryCheck = 'SELECT * FROM people WHERE email = ?';
     const valuesCheck = [email];
 
     try {
@@ -68,13 +57,13 @@ app.post('/add-user', async (req, res)=>{
 
       }
 
-      const query = 'INSERT INTO users (firstname, lastname, age, location, email) VALUES (?, ?, ?, ?, ?) '
+      const query = 'INSERT INTO people (firstname, lastname, age, location, email) VALUES (?, ?, ?, ?, ?) '
       const values = [firstname, lastname, age, location, email]
 
 
     
       const [results] = await promiseconnection.query(query, values);
-      res.status(200).json({ message: 'User added sucessfully', userId: results.insertId})
+      res.status(200).json({ message: 'User added sucessfully', USERID: results.insertId})
       console.log("User created")
       
     } catch (error) {
